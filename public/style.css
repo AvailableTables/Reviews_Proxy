@@ -1,0 +1,122 @@
+.body {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: BrandonText, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
+    Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji,
+    Segoe UI Symbol;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+.mainbody {
+  margin-top: calc(-1*48px);
+  display: flex;
+  flex-direction: row-reverse;
+  max-width: 992px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.data {
+  display: block;
+  width: 640px;
+  margin: 0 1rem 0 0;
+}
+
+#Header {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+#Reservations {
+  width: 320px;
+  margin: 0 0 0 1rem;
+}
+
+#Overview {
+  padding: 2rem 1rem 4rem;
+}
+
+#Reviews {
+  padding: 0;
+  margin: 0 1rem;
+}
+
+.main {
+  padding: 15px;
+  box-shadow: 0 2px 8px rgba(153, 153, 153, 0.4);
+  width: 320px;
+}
+
+.dayRuined {
+  float: none;
+}
+
+.timesBooked {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.specials {
+  border-top: 1px solid #d8d9db;
+  margin: 1rem 0 0;
+  padding: 1rem 0 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  display: block;
+}
+
+.partySize {
+  border-bottom: 1px solid #d8d9db;
+}
+
+.partySize:hover {
+  border-bottom: 1px solid red;
+}
+
+.time {
+  float: left;
+  display: inline;
+  width: 47%;
+  border-bottom: 1px solid #d8d9db;
+  margin-left: 6px;
+}
+
+.date {
+  border-bottom: 1px solid #d8d9db;
+  float: left;
+  display: inline;
+  width: 47%;
+  margin-right: 6px;
+}
+
+.selectTimeText {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.dropDown {
+  width: 98%;
+  border: 0;
+  background-color: white;
+  margin-bottom: 5px;
+}
+
+.react-calendar {
+  max-width: 210%;
+  z-index: 999999;
+  position: relative;
+}
+
+.link {
+  color: red;
+  text-decoration: none;
+}

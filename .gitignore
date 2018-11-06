@@ -1,0 +1,6 @@
+reviews/client/dist/bundle.js
+reviews/node_modules
+proxy/node_modules
+node_modules
+Dockerfile
+package-lock.json
