@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="http://3.16.45.212/styles.css">
+    <!-- <link rel="stylesheet" href="http://3.16.45.212/styles.css"> -->
     <link rel="stylesheet" href="/style.css">
     <title>FEC - TableOpen</title>
   </head>
@@ -19,25 +19,25 @@
     </div>
     <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-    <script src="http://3.16.45.212/bundle.js"></script>
-    <script src="https://s3.amazonaws.com/hrnyc18-tableopen-reviews/TableOpenBundle.js"></script>
+    <!-- <script src="http://3.16.45.212/bundle.js"></script> -->
+    <script type="text/javascript" src="http://localhost:3020/bundle.js"></script>
     <script>
-      ReactDOM.render(
-        React.createElement(Reservations),
-        document.getElementById('Reservations')
-      );
-      ReactDOM.render(
-        React.createElement(Overview),
-        document.getElementById('Overview')
-      );
+      // ReactDOM.render(
+      //   React.createElement(Reservations),
+      //   document.getElementById('Reservations')
+      // );
+      // ReactDOM.render(
+      //   React.createElement(Overview),
+      //   document.getElementById('Overview')
+      // );
       ReactDOM.render(
         React.createElement(Reviews),
         document.getElementById('Reviews')
       );
-      ReactDOM.render(
-        React.createElement(Header),
-        document.getElementById('Header')
-      );
+      // ReactDOM.render(
+      //   React.createElement(Header),
+      //   document.getElementById('Header')
+      // );
     </script>
   </body>
 </html>
