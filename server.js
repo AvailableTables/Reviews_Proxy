@@ -25,7 +25,6 @@ app.get('/restaurants/*', (req, res) => {
 
 // Reviews Service
 app.get('/API/Reviews/*', (req, res) => {
-  console.log(req.url, "req.url")
   axios.get(`http://localhost:3020${req.url}`)
     .then((results) => {
       res.send(results.data);
@@ -62,6 +61,7 @@ app.get('/reservations/*', (req, res) => {
 
 // Header
 app.get('/header', (req, res) => {
+  
   // axios.get(`http://34.207.247.29:8888${req.url}`)
   //   .then((results) => {
   //     res.send(results.data);
