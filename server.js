@@ -5,6 +5,17 @@ const axios = require('axios');
 const app = express();
 const parser = require('body-parser');
 const port = process.env.PORT || 3000;
+const components = {};
+
+const fs = require('fs');
+const fetch = require('node-fetch');
+
+
+const services = {
+  'Reviews': 'http://localhost:3020/bundle-client.js',
+'ReviewsServer': 'http://localhost:3020/bundle-server.js'
+};
+
 
 // app.use(morgan('dev'));
 app.use(parser.json());
@@ -19,9 +30,9 @@ app.get('/favicon.ico', (req, res) => {
   res.send();
 });
 
-app.get('/restaurants/*', (req, res) => {
-  res.sendFile(path.join(__dirname, './public/index.html'));
-});
+// app.get('/restaurants/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, './public/index.html'));
+// });
 
 // Reviews Service
 app.get('/API/Reviews/*', (req, res) => {
@@ -34,7 +45,111 @@ app.get('/API/Reviews/*', (req, res) => {
       res.send();
     });
 });
+// -------------------------------------------------------------------------//
+// download bundles
+(() => {
+  let serviceNames = ['Reviews'];
+  serviceNames.forEach((service) => {
+    let url = path.join(__dirname, `/public/bundles/${service}.js`);
+    fs.access(url, (err) => {
+      if (err) {
+        fetch(services[service])
+          .then(response => {
+            const dest = fs.createWriteStream(url);
+            response.body.pipe(dest);
+            response.body.on('end', () => {
+              setTimeout(() => {
+                console.log('file written');
+              }, 0);
+            });
+          });
+      } else {
+        console.log('file exists');
+      }
+    });
+  });
+})();
+ // download server bundles
+(() => {
+  let serviceNames = ['ReviewsServer'];
+  serviceNames.forEach((service) => {
+    let url = path.join(__dirname, `/public/bundles/${service}.js`);
+    fs.access(url, (err) => {
+      if (err) {
+        fetch(services[service])
+          .then(response => {
+            const dest = fs.createWriteStream(url);
+            response.body.pipe(dest);
+            response.body.on('end', () => {
+              setTimeout(() => {
+                components[service] = require(url).default;
+                console.log('file written');
+              }, 3000);
+            });
+          });
+      } else {
+        components[service] = require(url).default;
+        console.log('file exists');
+      }
+    });
+  });
+}) ();
+app.get('/restaurants/*', (req, res) => {
+  // console.log('resultsStart', req.url)
+  Promise.all([
+    // axios.get(`http://localhost:3020${req.url}`)
+    axios.get(`http://localhost:3020${req.url}`)
+    .then((received)=>{
+      // console.log('hello', received.data,'end')
+      return received.data
+    } )
+    .then((results) => {
+      console.log(results.length)
+      let htmls = [];
+      let props = [];
+      // results.forEach(({props}) => {
+        // console.log('foreach', data[0])
+        htmls.push(results[0]);
+        props.push(results[1]);
+        console.log(htmls.length, props.length)
+        // res.send(`<div>Hello${props[0]}<div/>`)
+      // });
+       res.end(`
+        <!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <link rel="stylesheet" href="/style.css">
+            <title>FEC - TableOpen</title>
+          </head>
+          <body>
+            <div class="body">
+              <div id="Header"></div>
+              <div class="mainbody">
+                <div id="Reservations"></div>
+                <div class="data">
+                  <div id="Overview"></div>
+                  <div id="Reviews">${htmls[0]}</div>
+                </div>
+              </div>
+            </div>
+            <script crossorigin src="https://unpkg.com/react@16.6.3/umd/react.development.js"></script>
+            <script crossorigin src="https://unpkg.com/react-dom@16.6.3/umd/react-dom.development.js"></script>
+            <script type="text/javascript" src="http://localhost:3020/bundle-client.js"></script>
+            <script>
+              ReactDOM.hydrate(
+                React.createElement(Reviews, ${props[0]}),
+                document.getElementById('Reviews')
+              );
+            </script>
+          </body>
+        </html>
+      `);
+    })
+  ])
+});
 
+// ---------------------------------------------------------------------//
 // Overview Service
 app.get('/api/*', (req, res) => {
   // axios.get(`http://3.16.45.212${req.url}`)
