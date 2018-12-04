@@ -19,7 +19,7 @@ const services = {
 
 // app.use(morgan('dev'));
 app.use(parser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, './public')));
 
 app.all('/*', function(req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
@@ -107,12 +107,17 @@ app.get('/restaurants/*', (req, res) => {
       console.log(results.length)
       let htmls = [];
       let props = [];
+      let comp = [];
       // results.forEach(({props}) => {
         // console.log('foreach', data[0])
         htmls.push(results[0]);
         props.push(results[1]);
-        console.log(htmls.length, props.length)
+        // let rendercomp = React.createElement(application, reactData);
+
+        //console.log(htmls.length, props.length)
         // res.send(`<div>Hello${props[0]}<div/>`)
+        //            <script  src="http://localhost:3020/bundle-client.js"></script>
+
       // });
        res.end(`
         <!DOCTYPE html>
@@ -135,8 +140,7 @@ app.get('/restaurants/*', (req, res) => {
             </div>
             <script crossorigin src="https://unpkg.com/react@16.6.3/umd/react.development.js"></script>
             <script crossorigin src="https://unpkg.com/react-dom@16.6.3/umd/react-dom.development.js"></script>
-            <script type="text/javascript" src="http://localhost:3020/bundle-client.js"></script>
-            <script>
+            <script  src="http://localhost:3020/bundle-client.js"></script>            <script>
               ReactDOM.hydrate(
                 React.createElement(Reviews, ${props[0]}),
                 document.getElementById('Reviews')
