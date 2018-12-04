@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const path = require('path');
 const axios = require('axios');
 const app = express();
+const compression = require('compression');
 const parser = require('body-parser');
 const port = process.env.PORT || 3000;
 const components = {};
@@ -17,7 +18,8 @@ const services = {
 };
 
 
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
+// app.use(compression());
 app.use(parser.json());
 app.use(express.static(path.join(__dirname, './public')));
 
