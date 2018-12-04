@@ -17,7 +17,7 @@ const services = {
 };
 
 
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 app.use(parser.json());
 app.use(express.static(path.join(__dirname, './public')));
 
@@ -38,6 +38,7 @@ app.get('/favicon.ico', (req, res) => {
 app.get('/API/Reviews/*', (req, res) => {
   axios.get(`http://localhost:3020${req.url}`)
     .then((results) => {
+      //console.log(results)
       res.send(results.data);
     })
     .catch((err) => {
@@ -70,30 +71,30 @@ app.get('/API/Reviews/*', (req, res) => {
   });
 })();
  // download server bundles
-(() => {
-  let serviceNames = ['ReviewsServer'];
-  serviceNames.forEach((service) => {
-    let url = path.join(__dirname, `/public/bundles/${service}.js`);
-    fs.access(url, (err) => {
-      if (err) {
-        fetch(services[service])
-          .then(response => {
-            const dest = fs.createWriteStream(url);
-            response.body.pipe(dest);
-            response.body.on('end', () => {
-              setTimeout(() => {
-                components[service] = require(url).default;
-                console.log('file written');
-              }, 3000);
-            });
-          });
-      } else {
-        components[service] = require(url).default;
-        console.log('file exists');
-      }
-    });
-  });
-}) ();
+// (() => {
+//   let serviceNames = ['ReviewsServer'];
+//   serviceNames.forEach((service) => {
+//     let url = path.join(__dirname, `/public/bundles/${service}.js`);
+//     fs.access(url, (err) => {
+//       if (err) {
+//         fetch(services[service])
+//           .then(response => {
+//             const dest = fs.createWriteStream(url);
+//             response.body.pipe(dest);
+//             response.body.on('end', () => {
+//               setTimeout(() => {
+//                 components[service] = require(url).default;
+//                 console.log('file written');
+//               }, 3000);
+//             });
+//           });
+//       } else {
+//         components[service] = require(url).default;
+//         console.log('file exists');
+//       }
+//     });
+//   });
+// }) ();
 app.get('/restaurants/*', (req, res) => {
   // console.log('resultsStart', req.url)
   Promise.all([
@@ -104,7 +105,7 @@ app.get('/restaurants/*', (req, res) => {
       return received.data
     } )
     .then((results) => {
-      console.log(results.length)
+      //console.log(results.length)
       let htmls = [];
       let props = [];
       let comp = [];
@@ -119,7 +120,7 @@ app.get('/restaurants/*', (req, res) => {
         //            <script  src="http://localhost:3020/bundle-client.js"></script>
 
       // });
-       res.end(`
+       res.send(`
         <!DOCTYPE html>
         <html lang="en">
           <head>
@@ -140,7 +141,8 @@ app.get('/restaurants/*', (req, res) => {
             </div>
             <script crossorigin src="https://unpkg.com/react@16.6.3/umd/react.development.js"></script>
             <script crossorigin src="https://unpkg.com/react-dom@16.6.3/umd/react-dom.development.js"></script>
-            <script  src="http://localhost:3020/bundle-client.js"></script>            <script>
+            <script type="text/javascript" src="/bundles/Reviews.js" > </script>           
+            <script>
               ReactDOM.hydrate(
                 React.createElement(Reviews, ${props[0]}),
                 document.getElementById('Reviews')
